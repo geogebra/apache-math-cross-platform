@@ -1,0 +1,36 @@
+plugins {
+    id 'java'
+    id 'maven-publish'
+}
+
+version = '3.0.0'
+
+jar {
+    from sourceSets.main.allSource
+}
+
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            artifactId = 'math-cross-platform'
+            groupId = 'org.apache'
+            from components.java
+            pom {
+                name = 'Apache Commons Math: Cross-Platform'
+                description = 'GWT-compatible fork of Apache Commons Math'
+            }
+        }
+    }
+    repositories {
+        maven {
+            url 'https://repo.geogebra.net/releases'
+            credentials {
+                username = System.env.MAVEN_USR;
+                password = System.env.MAVEN_PSW;
+            }
+            authentication {
+                basic(BasicAuthentication)
+            }
+        }
+    }
+}

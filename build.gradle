@@ -3,10 +3,13 @@ plugins {
     id 'maven-publish'
 }
 
-version = '3.0.0'
+version = '3.6.1'
 
-jar {
+tasks.register('sourcesJar', Jar) {
+    dependsOn "classes"
+    archiveClassifier = 'sources'
     from sourceSets.main.allSource
+    from files(file("build/generated/sources/annotationProcessor/java/main/"))
 }
 
 publishing {
@@ -15,6 +18,7 @@ publishing {
             artifactId = 'math-cross-platform'
             groupId = 'org.apache'
             from components.java
+            artifact sourcesJar
             pom {
                 name = 'Apache Commons Math: Cross-Platform'
                 description = 'GWT-compatible fork of Apache Commons Math'
